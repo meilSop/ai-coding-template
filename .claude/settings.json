@@ -1,0 +1,66 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write.*\\.vue",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "npx vue-tsc --noEmit 2>/dev/null || true"
+          }
+        ]
+      },
+      {
+        "matcher": "Write.*\\.tsx",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "npx eslint --fix {{file_path}} 2>/dev/null || true"
+          }
+        ]
+      },
+      {
+        "matcher": "Write.*package\\.json",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "npm install 2>/dev/null || true"
+          }
+        ]
+      },
+      {
+        "matcher": "Write.*\\.py",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "black {{file_path}} 2>/dev/null || true"
+          }
+        ]
+      },
+      {
+        "matcher": "Write.*\\.java",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '🔍 检查 Java 代码格式...'"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "npx nest build 2>&1 | grep -q 'ERROR' && echo '❌ NestJS Error' || echo '✅ NestJS Build OK'"
+          },
+          {
+            "type": "command",
+            "command": "npm run build 2>&1 | tail -n 3"
+          }
+        ]
+      }
+    ]
+  }
+}
